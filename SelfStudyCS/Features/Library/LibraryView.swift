@@ -9,6 +9,8 @@ struct LibraryView: View {
   @Bindable var appModel: AppViewModel
   @State private var query = ""
 
+  @Environment(\.readerPalette) private var palette
+
   private var filteredSections: [CatalogSection] {
     let q = query.trimmingCharacters(in: .whitespacesAndNewlines)
     guard !q.isEmpty else { return appModel.catalog }
@@ -31,6 +33,7 @@ struct LibraryView: View {
               ContinueReadingRow(title: cont.title, subtitle: cont.subtitle)
             }
             .listRowInsets(EdgeInsets(top: 10, leading: 16, bottom: 10, trailing: 16))
+            .listRowBackground(palette.secondaryBackground)
           } header: {
             Text("Continue")
               .font(.subheadline.weight(.semibold))
@@ -49,6 +52,7 @@ struct LibraryView: View {
                   .frame(maxWidth: .infinity, alignment: .leading)
                   .padding(.vertical, 6)
               }
+              .listRowBackground(palette.secondaryBackground)
             }
           } header: {
             Text(section.title)
@@ -59,6 +63,7 @@ struct LibraryView: View {
         }
       }
       .listStyle(.insetGrouped)
+      .readerScreenBackground()
       .navigationTitle("Library")
       .navigationBarTitleDisplayMode(.large)
       .searchable(text: $query, prompt: "Search chapters")
@@ -68,7 +73,9 @@ struct LibraryView: View {
       .navigationDestination(for: ReaderDocument.self) { doc in
         ReaderView(document: doc)
       }
+      .readerNavigationChrome()
     }
+    .background(palette.background)
   }
 }
 

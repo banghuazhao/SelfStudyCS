@@ -12,9 +12,8 @@ struct ReaderView: View {
 
   @AppStorage(ReaderAppStorageKey.fontScale) private var fontScale = ReaderPreferenceDefaults.fontScale
   @AppStorage(ReaderAppStorageKey.lineSpacing) private var lineSpacing = ReaderPreferenceDefaults.lineSpacing
-  @AppStorage(ReaderAppStorageKey.theme) private var themeRaw = ReaderPreferenceDefaults.theme
 
-  @Environment(\.colorScheme) private var colorScheme
+  @Environment(\.readerPalette) private var palette
   @State private var model: ReaderViewModel
   @State private var showTOC = false
   @State private var showEditor = false
@@ -29,14 +28,6 @@ struct ReaderView: View {
   init(entry: CatalogEntry) {
     self.document = .bundled(entry)
     _model = State(wrappedValue: ReaderViewModel(entry: entry))
-  }
-
-  private var resolvedTheme: ReaderTheme {
-    ReaderTheme(rawValue: themeRaw) ?? .system
-  }
-
-  private var palette: ReaderPalette {
-    ReaderPaletteResolver.palette(theme: resolvedTheme, colorScheme: colorScheme)
   }
 
   private var baseFontSize: CGFloat {
@@ -118,7 +109,10 @@ struct ReaderView: View {
               .padding(.leading, CGFloat(max(0, heading.level - 1)) * 12)
               .frame(maxWidth: .infinity, alignment: .leading)
           }
+          .listRowBackground(palette.secondaryBackground)
         }
+        .listStyle(.insetGrouped)
+        .readerScreenBackground()
         .navigationTitle("Contents")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -127,6 +121,8 @@ struct ReaderView: View {
           }
         }
       }
+      .environment(\.readerPalette, palette)
+      .readerNavigationChrome()
       .presentationDetents([.medium, .large])
     }
     .sheet(isPresented: $showEditor) {
@@ -136,6 +132,8 @@ struct ReaderView: View {
             model.reloadContent()
           }
         }
+        .environment(\.readerPalette, palette)
+        .readerNavigationChrome()
       }
     }
     .task {
@@ -144,6 +142,7 @@ struct ReaderView: View {
     .onDisappear {
       model.flushProgress()
     }
+    .readerNavigationChrome()
   }
 
   private var emptyTitle: String {

@@ -53,6 +53,8 @@ struct MyGuidesView: View {
   @State private var model = MyGuidesViewModel()
   @State private var showNewGuide = false
 
+  @Environment(\.readerPalette) private var palette
+
   var body: some View {
     NavigationStack {
       Group {
@@ -67,6 +69,8 @@ struct MyGuidesView: View {
               )
             )
           )
+          .frame(maxWidth: .infinity, maxHeight: .infinity)
+          .background(palette.background)
         } else {
           List {
             ForEach(model.guides) { guide in
@@ -80,10 +84,12 @@ struct MyGuidesView: View {
                 }
                 .padding(.vertical, 4)
               }
+              .listRowBackground(palette.secondaryBackground)
             }
             .onDelete { model.delete(at: $0) }
           }
           .listStyle(.insetGrouped)
+          .readerScreenBackground()
         }
       }
       .navigationTitle(String(localized: "My guides"))
@@ -100,11 +106,15 @@ struct MyGuidesView: View {
       .navigationDestination(for: ReaderDocument.self) { doc in
         ReaderView(document: doc)
       }
+      .readerNavigationChrome()
       .sheet(isPresented: $showNewGuide) {
         NavigationStack {
           UserGuideEditorView(guideId: nil)
         }
+        .environment(\.readerPalette, palette)
+        .readerNavigationChrome()
       }
     }
+    .background(palette.background)
   }
 }

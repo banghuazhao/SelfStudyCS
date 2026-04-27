@@ -31,6 +31,7 @@ struct UserGuideEditorView: View {
         Text("Markdown")
       }
     }
+    .readerScreenBackground()
     .navigationTitle(
       guideId == nil
         ? String(localized: "New guide")

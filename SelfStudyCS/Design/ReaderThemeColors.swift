@@ -72,4 +72,34 @@ extension View {
   func readerPalette(_ palette: ReaderPalette) -> some View {
     environment(\.readerPalette, palette)
   }
+
+  /// Hides the system list/form scroll surface and paints the screen with the reader background.
+  func readerScreenBackground() -> some View {
+    modifier(ReaderScreenBackgroundModifier())
+  }
+
+  /// Navigation bar matches reader background (apply on each tab’s `NavigationStack`).
+  func readerNavigationChrome() -> some View {
+    modifier(ReaderNavigationChromeModifier())
+  }
+}
+
+private struct ReaderScreenBackgroundModifier: ViewModifier {
+  @Environment(\.readerPalette) private var palette
+
+  func body(content: Content) -> some View {
+    content
+      .scrollContentBackground(.hidden)
+      .background(palette.background)
+  }
+}
+
+private struct ReaderNavigationChromeModifier: ViewModifier {
+  @Environment(\.readerPalette) private var palette
+
+  func body(content: Content) -> some View {
+    content
+      .toolbarBackground(palette.background, for: .navigationBar)
+      .toolbarBackground(.visible, for: .navigationBar)
+  }
 }

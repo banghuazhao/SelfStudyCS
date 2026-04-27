@@ -36,6 +36,8 @@ private final class BookmarksViewModel {
 struct BookmarksView: View {
   @State private var model = BookmarksViewModel()
 
+  @Environment(\.readerPalette) private var palette
+
   private func readerDestination(for record: BookmarkRecord) -> ReaderDocument {
     if let id = UserGuideRecord.parseId(fromDocumentPath: record.documentPath) {
       return .userGuide(id: id)
@@ -65,6 +67,8 @@ struct BookmarksView: View {
             systemImage: "bookmark",
             description: Text("Save chapters from the reader to find them here.")
           )
+          .frame(maxWidth: .infinity, maxHeight: .infinity)
+          .background(palette.background)
         } else {
           List {
             ForEach(model.bookmarks) { record in
@@ -74,12 +78,14 @@ struct BookmarksView: View {
                   .frame(maxWidth: .infinity, alignment: .leading)
                   .padding(.vertical, 6)
               }
+              .listRowBackground(palette.secondaryBackground)
             }
             .onDelete { indexSet in
               indexSet.map { model.bookmarks[$0] }.forEach(model.remove)
             }
           }
           .listStyle(.insetGrouped)
+          .readerScreenBackground()
         }
       }
       .navigationTitle("Bookmarks")
@@ -87,6 +93,8 @@ struct BookmarksView: View {
       .navigationDestination(for: ReaderDocument.self) { doc in
         ReaderView(document: doc)
       }
+      .readerNavigationChrome()
     }
+    .background(palette.background)
   }
 }

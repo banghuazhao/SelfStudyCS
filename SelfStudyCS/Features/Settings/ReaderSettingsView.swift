@@ -11,6 +11,8 @@ struct ReaderSettingsView: View {
   @AppStorage(ReaderAppStorageKey.theme) private var themeRaw = ReaderPreferenceDefaults.theme
   @AppStorage(ReaderAppStorageKey.languageMode) private var languageRaw = ReaderPreferenceDefaults.languageMode
 
+  @Environment(\.readerPalette) private var palette
+
   var body: some View {
     NavigationStack {
       Form {
@@ -50,12 +52,17 @@ struct ReaderSettingsView: View {
         }
 
         Section {
-          Picker("Appearance", selection: $themeRaw) {
-            ForEach(ReaderTheme.allCases) { theme in
-              Text(theme.title).tag(theme.rawValue)
+          NavigationLink {
+            AppearanceSettingsView()
+          } label: {
+            HStack {
+              Text("Appearance")
+              Spacer()
+              Text(ReaderTheme(rawValue: themeRaw)?.title ?? "—")
+                .foregroundStyle(palette.secondaryText)
             }
           }
-          .pickerStyle(.navigationLink)
+          .listRowBackground(palette.secondaryBackground)
 
           Picker("Language", selection: $languageRaw) {
             ForEach(ContentLanguageMode.allCases) { mode in
@@ -63,6 +70,7 @@ struct ReaderSettingsView: View {
             }
           }
           .pickerStyle(.navigationLink)
+          .listRowBackground(palette.secondaryBackground)
         } header: {
           Text("Content")
         } footer: {
@@ -112,8 +120,11 @@ struct ReaderSettingsView: View {
           )
         }
       }
+      .readerScreenBackground()
       .navigationTitle("Settings")
       .navigationBarTitleDisplayMode(.large)
+      .readerNavigationChrome()
     }
+    .background(palette.background)
   }
 }
