@@ -21,14 +21,13 @@ nonisolated struct CatalogSection: Identifiable, Hashable, Sendable {
 
 enum DocumentCatalog {
   static func build(language: ContentLanguageMode) -> [CatalogSection] {
-    let urls = BundledDocsLocator.allMarkdownFileURLs()
+    let catalogFiles = BundledDocsLocator.allCatalogMarkdownFileURLs()
     let prefersEnglish = language.resolvesToEnglish()
 
     var groups: [String: [URL]] = [:]
-    for url in urls {
-      guard let relative = BundledDocsLocator.pathRelativeToDocs(from: url) else { continue }
-      let key = stemKey(forRelativePath: relative)
-      groups[key, default: []].append(url)
+    for pair in catalogFiles {
+      let key = stemKey(forRelativePath: pair.documentPath)
+      groups[key, default: []].append(pair.url)
     }
 
     var entries: [CatalogEntry] = []
@@ -47,7 +46,12 @@ enum DocumentCatalog {
     }
 
     let grouped = Dictionary(grouping: entries, by: \.sectionTitle)
-    let sections = grouped.keys.sorted { $0.localizedCaseInsensitiveCompare($1) == .orderedAscending }
+    let sections = grouped.keys.sorted { a, b in
+      let aTpl = grouped[a]!.contains { $0.documentPath.hasPrefix("Template/") }
+      let bTpl = grouped[b]!.contains { $0.documentPath.hasPrefix("Template/") }
+      if aTpl != bTpl { return !aTpl && bTpl }
+      return a.localizedCaseInsensitiveCompare(b) == .orderedAscending
+    }
     return sections.map { key in
       CatalogSection(
         title: key,
@@ -81,7 +85,10 @@ enum DocumentCatalog {
   private static func sectionTitle(stem: String, relative: String, prefersEnglish: Bool) -> String {
     let parts = stem.split(separator: "/").map(String.init)
     if parts.count >= 2 {
-      return DocsEnglishTitles.folderDisplayName(parts[0], prefersEnglish: prefersEnglish)
+      return DocsEnglishTitles.folderDisplayName(
+        parts[0],
+        prefersEnglish: prefersEnglish
+      )
     }
     return DocsEnglishTitles.rootOverviewSectionTitle
   }
@@ -106,9 +113,7 @@ enum DocumentCatalog {
 enum MarkdownBundleLoader {
   static func loadString(documentPath: String) -> String? {
     guard documentPath.lowercased().hasSuffix(".md") else { return nil }
-    guard let url = BundledDocsLocator.fileURL(documentPathRelativeToDocs: documentPath) else {
-      return nil
-    }
+    guard let url = BundledDocsLocator.fileURL(documentPath: documentPath) else { return nil }
     return try? String(contentsOf: url, encoding: .utf8)
   }
 }

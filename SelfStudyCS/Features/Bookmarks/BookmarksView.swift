@@ -36,18 +36,23 @@ private final class BookmarksViewModel {
 struct BookmarksView: View {
   @State private var model = BookmarksViewModel()
 
-  private func entry(for record: BookmarkRecord) -> CatalogEntry? {
+  private func readerDestination(for record: BookmarkRecord) -> ReaderDocument {
+    if let id = UserGuideRecord.parseId(fromDocumentPath: record.documentPath) {
+      return .userGuide(id: id)
+    }
     let mode = ReaderPreferenceDefaults.contentLanguageMode
     let all = DocumentCatalog.build(language: mode)
     for section in all {
       if let hit = section.entries.first(where: { $0.documentPath == record.documentPath }) {
-        return hit
+        return .bundled(hit)
       }
     }
-    return CatalogEntry(
-      documentPath: record.documentPath,
-      displayTitle: record.displayTitle,
-      sectionTitle: String(localized: "Bookmarks")
+    return .bundled(
+      CatalogEntry(
+        documentPath: record.documentPath,
+        displayTitle: record.displayTitle,
+        sectionTitle: String(localized: "Bookmarks")
+      )
     )
   }
 
@@ -63,13 +68,11 @@ struct BookmarksView: View {
         } else {
           List {
             ForEach(model.bookmarks) { record in
-              if let entry = entry(for: record) {
-                NavigationLink(value: entry) {
-                  Text(record.displayTitle)
-                    .font(.body.weight(.medium))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.vertical, 6)
-                }
+              NavigationLink(value: readerDestination(for: record)) {
+                Text(record.displayTitle)
+                  .font(.body.weight(.medium))
+                  .frame(maxWidth: .infinity, alignment: .leading)
+                  .padding(.vertical, 6)
               }
             }
             .onDelete { indexSet in
@@ -81,8 +84,8 @@ struct BookmarksView: View {
       }
       .navigationTitle("Bookmarks")
       .navigationBarTitleDisplayMode(.large)
-      .navigationDestination(for: CatalogEntry.self) { entry in
-        ReaderView(entry: entry)
+      .navigationDestination(for: ReaderDocument.self) { doc in
+        ReaderView(document: doc)
       }
     }
   }

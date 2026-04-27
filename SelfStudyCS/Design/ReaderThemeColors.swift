@@ -28,31 +28,32 @@ enum ReaderPaletteResolver {
     }
   }
 
+  /// Warm paper-like surfaces and softened type for long-form reading (not stark white / pure black).
   private static let light = ReaderPalette(
-    background: Color(.systemBackground),
-    secondaryBackground: Color(.secondarySystemBackground),
-    primaryText: Color(.label),
-    secondaryText: Color(.secondaryLabel),
+    background: Color(red: 0.978, green: 0.965, blue: 0.945),
+    secondaryBackground: Color(red: 0.96, green: 0.948, blue: 0.925),
+    primaryText: Color(red: 0.12, green: 0.11, blue: 0.1),
+    secondaryText: Color(red: 0.38, green: 0.35, blue: 0.32),
     accent: Color.accentColor,
-    codeBackground: Color(.systemGray6)
+    codeBackground: Color(red: 0.93, green: 0.915, blue: 0.885)
   )
 
   private static let dark = ReaderPalette(
-    background: Color(.systemBackground),
-    secondaryBackground: Color(.secondarySystemBackground),
-    primaryText: Color(.label),
-    secondaryText: Color(.secondaryLabel),
+    background: Color(red: 0.11, green: 0.11, blue: 0.12),
+    secondaryBackground: Color(red: 0.15, green: 0.15, blue: 0.16),
+    primaryText: Color(red: 0.93, green: 0.92, blue: 0.9),
+    secondaryText: Color(red: 0.68, green: 0.66, blue: 0.62),
     accent: Color.accentColor,
-    codeBackground: Color(.systemGray5)
+    codeBackground: Color(red: 0.2, green: 0.2, blue: 0.22)
   )
 
   private static let sepia = ReaderPalette(
-    background: Color(red: 0.97, green: 0.94, blue: 0.86),
-    secondaryBackground: Color(red: 0.93, green: 0.89, blue: 0.78),
-    primaryText: Color(red: 0.2, green: 0.16, blue: 0.11),
-    secondaryText: Color(red: 0.35, green: 0.3, blue: 0.22),
-    accent: Color(red: 0.45, green: 0.32, blue: 0.2),
-    codeBackground: Color(red: 0.9, green: 0.86, blue: 0.75)
+    background: Color(red: 0.965, green: 0.935, blue: 0.855),
+    secondaryBackground: Color(red: 0.925, green: 0.89, blue: 0.78),
+    primaryText: Color(red: 0.19, green: 0.15, blue: 0.1),
+    secondaryText: Color(red: 0.36, green: 0.3, blue: 0.22),
+    accent: Color(red: 0.42, green: 0.3, blue: 0.18),
+    codeBackground: Color(red: 0.895, green: 0.855, blue: 0.74)
   )
 }
 

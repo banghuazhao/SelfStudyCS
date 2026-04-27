@@ -25,10 +25,10 @@ struct LibraryView: View {
   var body: some View {
     NavigationStack {
       List {
-        if let entry = appModel.continueReadingEntry {
+        if let cont = appModel.continueReadingPresentation {
           Section {
-            NavigationLink(value: entry) {
-              ContinueReadingRow(title: entry.displayTitle, subtitle: entry.sectionTitle)
+            NavigationLink(value: cont.document) {
+              ContinueReadingRow(title: cont.title, subtitle: cont.subtitle)
             }
             .listRowInsets(EdgeInsets(top: 10, leading: 16, bottom: 10, trailing: 16))
           } header: {
@@ -64,6 +64,9 @@ struct LibraryView: View {
       .searchable(text: $query, prompt: "Search chapters")
       .navigationDestination(for: CatalogEntry.self) { entry in
         ReaderView(entry: entry)
+      }
+      .navigationDestination(for: ReaderDocument.self) { doc in
+        ReaderView(document: doc)
       }
     }
   }

@@ -21,6 +21,11 @@ struct RootTabView: View {
           Label("Bookmarks", systemImage: "bookmark.fill")
         }
 
+      MyGuidesView()
+        .tabItem {
+          Label("My guides", systemImage: "square.and.pencil")
+        }
+
       ReaderSettingsView()
         .tabItem {
           Label("Settings", systemImage: "gearshape.fill")

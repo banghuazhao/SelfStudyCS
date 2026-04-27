@@ -9,6 +9,9 @@ import Foundation
 enum DocsEnglishTitles {
   nonisolated static let rootOverviewSectionTitle = "Overview"
 
+  /// On-disk folder name for bundled markdown templates (must match `BundledDocsLocator`).
+  private static let bundledTemplateFolderName = "Template"
+
   private static let chineseFolderToEnglish: [String: String] = [
     "人工智能": "Artificial Intelligence",
     "体系结构": "Computer Architecture",
@@ -46,6 +49,11 @@ enum DocsEnglishTitles {
   ]
 
   static func folderDisplayName(_ folderComponent: String, prefersEnglish: Bool) -> String {
+    if folderComponent == bundledTemplateFolderName {
+      return prefersEnglish
+        ? String(localized: "Course template", comment: "Library section for writing templates")
+        : String(localized: "课程模板", comment: "Library section for writing templates")
+    }
     guard prefersEnglish else { return folderComponent }
     return chineseFolderToEnglish[folderComponent] ?? folderComponent
   }
@@ -55,9 +63,15 @@ enum DocsEnglishTitles {
     relativePath: String,
     prefersEnglish: Bool
   ) -> String {
+    let parent = (relativePath as NSString).deletingLastPathComponent
+    if parent == bundledTemplateFolderName, fileStem == "template" {
+      return prefersEnglish
+        ? String(localized: "Sample course entry", comment: "Template doc title in library")
+        : String(localized: "课程条目示例", comment: "Template doc title in library")
+    }
+
     let spaced = fileStem.replacingOccurrences(of: "_", with: " ")
     guard prefersEnglish else { return spaced }
-    let parent = (relativePath as NSString).deletingLastPathComponent
     guard parent.isEmpty else { return spaced }
     return rootMarkdownStemToEnglish[fileStem] ?? spaced
   }

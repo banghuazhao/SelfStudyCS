@@ -46,6 +46,21 @@ enum AppDatabase {
       .execute(db)
     }
 
+    migrator.registerMigration("20260429200000_user_guides") { db in
+      try #sql(
+        """
+        CREATE TABLE "user_guides" (
+          "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+          "title" TEXT NOT NULL,
+          "markdownBody" TEXT NOT NULL,
+          "createdAt" TEXT NOT NULL,
+          "updatedAt" TEXT NOT NULL
+        ) STRICT
+        """
+      )
+      .execute(db)
+    }
+
     try migrator.migrate(pool)
     return pool
   }

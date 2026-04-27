@@ -96,18 +96,20 @@ enum MarkdownHTMLConverter {
       font-family: -apple-system, BlinkMacSystemFont, 'San Francisco', 'Helvetica Neue', sans-serif;
       font-size: 1rem;
       line-height: var(--line-spacing);
-      padding: 16px 16px 80px 16px;
-      margin: 0;
+      max-width: 40rem;
+      margin: 0 auto;
+      padding: 22px max(18px, env(safe-area-inset-left)) 88px max(18px, env(safe-area-inset-right));
       word-wrap: break-word;
       overflow-wrap: break-word;
       -webkit-text-size-adjust: none;
+      -webkit-font-smoothing: antialiased;
     }
     h1 { font-size: 1.75em; margin: 1.3em 0 0.5em; }
     h2 { font-size: 1.4em; margin: 1.2em 0 0.4em; border-bottom: 1px solid rgba(128,128,128,0.2); padding-bottom: 0.25em; }
     h3 { font-size: 1.15em; margin: 1em 0 0.35em; }
     h4, h5, h6 { font-size: 1em; margin: 0.9em 0 0.3em; }
     h1:first-child, h2:first-child, h3:first-child { margin-top: 0.3em; }
-    p { margin: 0.75em 0; }
+    p { margin: 0.85em 0; }
     ul, ol { padding-left: 1.6em; margin: 0.6em 0; }
     li { margin: 0.3em 0; }
     pre {

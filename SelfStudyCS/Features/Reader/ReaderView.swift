@@ -8,7 +8,7 @@ import UIKit
 import WebKit
 
 struct ReaderView: View {
-  let entry: CatalogEntry
+  let document: ReaderDocument
 
   @AppStorage(ReaderAppStorageKey.fontScale) private var fontScale = ReaderPreferenceDefaults.fontScale
   @AppStorage(ReaderAppStorageKey.lineSpacing) private var lineSpacing = ReaderPreferenceDefaults.lineSpacing
@@ -17,11 +17,17 @@ struct ReaderView: View {
   @Environment(\.colorScheme) private var colorScheme
   @State private var model: ReaderViewModel
   @State private var showTOC = false
+  @State private var showEditor = false
   @State private var scrollNavigator: (token: Int, fragment: String)?
   @State private var scrollNonce = 0
 
+  init(document: ReaderDocument) {
+    self.document = document
+    _model = State(wrappedValue: ReaderViewModel(document: document))
+  }
+
   init(entry: CatalogEntry) {
-    self.entry = entry
+    self.document = .bundled(entry)
     _model = State(wrappedValue: ReaderViewModel(entry: entry))
   }
 
@@ -37,13 +43,18 @@ struct ReaderView: View {
     CGFloat(17 * fontScale)
   }
 
+  private var userGuideIdForEditor: Int? {
+    if case .userGuide(let id) = document { return id }
+    return nil
+  }
+
   var body: some View {
     Group {
       if model.markdown.isEmpty {
         ContentUnavailableView(
-          "Couldn’t load chapter",
-          systemImage: "doc.text.magnifyingglass",
-          description: Text("This file may be missing from the app bundle.")
+          emptyTitle,
+          systemImage: "doc.text",
+          description: Text(emptyDescription)
         )
       } else {
         MarkdownTextView(
@@ -69,6 +80,13 @@ struct ReaderView: View {
     .navigationBarTitleDisplayMode(.inline)
     .toolbar {
       ToolbarItemGroup(placement: .topBarTrailing) {
+        if let id = userGuideIdForEditor {
+          Button {
+            showEditor = true
+          } label: {
+            Label("Edit", systemImage: "square.and.pencil")
+          }
+        }
         if !model.headings.isEmpty {
           Button {
             showTOC = true
@@ -111,11 +129,32 @@ struct ReaderView: View {
       }
       .presentationDetents([.medium, .large])
     }
+    .sheet(isPresented: $showEditor) {
+      if let id = userGuideIdForEditor {
+        NavigationStack {
+          UserGuideEditorView(guideId: id) {
+            model.reloadContent()
+          }
+        }
+      }
+    }
     .task {
       model.loadContent()
     }
     .onDisappear {
       model.flushProgress()
     }
+  }
+
+  private var emptyTitle: String {
+    model.isUserGuide
+      ? String(localized: "Nothing here yet")
+      : String(localized: "Couldn’t load chapter")
+  }
+
+  private var emptyDescription: String {
+    model.isUserGuide
+      ? String(localized: "Tap Edit to add Markdown, or write a title and body in My Guides.")
+      : String(localized: "This file may be missing from the app bundle.")
   }
 }

@@ -73,9 +73,43 @@ struct ReaderSettingsView: View {
 
         Section {
           LabeledContent("Version", value: "1.0")
-          LabeledContent("Content", value: "CS Self-Learning (bundled)")
+          LabeledContent("Content", value: String(localized: "CS Self-Learning (bundled)"))
+
+          VStack(alignment: .leading, spacing: 10) {
+            Text(
+              String(
+                localized:
+                  "Course notes come from the open CS Self-Learning guide by PKUFlyingPig and contributors.",
+                comment: "Attribution to original repository author"
+              )
+            )
+            .font(.subheadline)
+            .foregroundStyle(.secondary)
+            .fixedSize(horizontal: false, vertical: true)
+
+            Link(
+              String(localized: "CS Self-Learning on GitHub"),
+              destination: URL(string: "https://github.com/PKUFlyingPig/cs-self-learning")!
+            )
+            .font(.subheadline)
+
+            Link(
+              String(localized: "Read online — csdiy.wiki"),
+              destination: URL(string: "https://csdiy.wiki")!
+            )
+            .font(.subheadline)
+          }
+          .padding(.vertical, 4)
         } header: {
           Text("About")
+        } footer: {
+          Text(
+            String(
+              localized:
+                "Use My guides to write notes stored on this device. The bundled “Course template” in the library is a reference for Markdown structure; to ship new pages inside the app, add files under Docs and rebuild.",
+              comment: "Explains My guides vs bundled Template/Docs"
+            )
+          )
         }
       }
       .navigationTitle("Settings")
