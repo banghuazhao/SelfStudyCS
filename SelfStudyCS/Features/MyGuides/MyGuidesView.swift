@@ -99,7 +99,7 @@ struct MyGuidesView: View {
           Button {
             showNewGuide = true
           } label: {
-            Label(String(localized: "New guide"), systemImage: "plus")
+            Label(String(localized: "New course", comment: "Toolbar create course guide"), systemImage: "plus")
           }
         }
       }

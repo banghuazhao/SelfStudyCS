@@ -4,7 +4,7 @@ Native reader for the [**CS Self-Learning**](https://github.com/PKUFlyingPig/cs-
 
 ## My guides (your notes)
 
-The **My guides** tab lets you create Markdown documents that are stored in the app’s SQLite database on device (not in the `Docs` bundle). You can open them in the same reader as catalog chapters, bookmark them, and resume scroll position. Deleting a guide removes its bookmarks and reading progress rows.
+The **My guides** tab lets you create **course-style notes** using the same section layout as the English template (course heading, Descriptions bullets, introduction, Course Resources, Personal Resources). Fields are optional where noted; the app saves **structured data** plus generated Markdown for reading. Everything is stored in SQLite on device.
 
 ## Credits
 

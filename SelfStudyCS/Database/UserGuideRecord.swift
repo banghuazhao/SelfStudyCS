@@ -11,6 +11,8 @@ nonisolated struct UserGuideRecord: Identifiable, Hashable, Sendable {
   let id: Int
   var title: String
   var markdownBody: String
+  /// JSON-encoded `GuideCourseTemplateForm` for round-tripping the structured editor.
+  var templatePayload: String
   var createdAt: Date
   var updatedAt: Date
 

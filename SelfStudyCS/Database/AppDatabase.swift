@@ -61,6 +61,15 @@ enum AppDatabase {
       .execute(db)
     }
 
+    migrator.registerMigration("20260430200000_user_guides_template_payload") { db in
+      try #sql(
+        """
+        ALTER TABLE "user_guides" ADD COLUMN "templatePayload" TEXT NOT NULL DEFAULT ''
+        """
+      )
+      .execute(db)
+    }
+
     try migrator.migrate(pool)
     return pool
   }
