@@ -23,9 +23,8 @@ final class AppViewModel {
 
   private(set) var catalog: [CatalogSection] = []
 
-  /// Quick lookup for list row bookmark icons.
-  var bookmarkedDocumentPaths: Set<String> {
-    Set(bookmarks.map(\.documentPath))
+  func isPathBookmarked(_ path: String) -> Bool {
+    bookmarks.contains { DocumentCatalog.sameLogicalDocument($0.documentPath, path) }
   }
 
   func refreshCatalog() {
@@ -49,11 +48,8 @@ final class AppViewModel {
       )
     }
     let mode = ReaderPreferenceDefaults.contentLanguageMode
-    let all = DocumentCatalog.build(language: mode)
-    for section in all {
-      if let hit = section.entries.first(where: { $0.documentPath == path }) {
-        return (.bundled(hit), hit.displayTitle, hit.sectionTitle)
-      }
+    if let hit = DocumentCatalog.catalogEntry(matchingStoredPath: path, language: mode) {
+      return (.bundled(hit), hit.displayTitle, hit.sectionTitle)
     }
     return nil
   }

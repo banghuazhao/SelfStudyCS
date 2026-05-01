@@ -64,12 +64,18 @@ struct ReaderSettingsView: View {
           }
           .listRowBackground(palette.secondaryBackground)
 
-          Picker("Language", selection: $languageRaw) {
-            ForEach(ContentLanguageMode.allCases) { mode in
-              Text(mode.title).tag(mode.rawValue)
+          NavigationLink {
+            ContentLanguageSettingsView(languageRaw: $languageRaw)
+          } label: {
+            HStack {
+              Text("Language")
+              Spacer()
+              Text(
+                ContentLanguageMode(rawValue: languageRaw)?.title ?? "—"
+              )
+              .foregroundStyle(palette.secondaryText)
             }
           }
-          .pickerStyle(.navigationLink)
           .listRowBackground(palette.secondaryBackground)
         } header: {
           Text("Content")
@@ -126,5 +132,43 @@ struct ReaderSettingsView: View {
       .readerNavigationChrome()
     }
     .background(palette.background)
+  }
+}
+
+// MARK: - Language (custom stack; avoids `Picker(.navigationLink)` bar ignoring reader chrome)
+
+private struct ContentLanguageSettingsView: View {
+  @Binding var languageRaw: String
+
+  @Environment(\.readerPalette) private var palette
+
+  var body: some View {
+    List {
+      Section {
+        ForEach(ContentLanguageMode.allCases) { mode in
+          Button {
+            languageRaw = mode.rawValue
+          } label: {
+            HStack {
+              Text(mode.title)
+                .foregroundStyle(palette.primaryText)
+              Spacer()
+              if mode.rawValue == languageRaw {
+                Image(systemName: "checkmark")
+                  .font(.body.weight(.semibold))
+                  .foregroundStyle(palette.accent)
+              }
+            }
+          }
+          .buttonStyle(.plain)
+          .listRowBackground(palette.secondaryBackground)
+        }
+      }
+    }
+    .listStyle(.insetGrouped)
+    .readerScreenBackground()
+    .navigationTitle("Language")
+    .navigationBarTitleDisplayMode(.inline)
+    .readerNavigationChrome()
   }
 }

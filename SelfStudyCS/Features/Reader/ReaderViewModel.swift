@@ -25,6 +25,31 @@ final class ReaderViewModel {
 
   private var progressSaveTask: Task<Void, Never>?
 
+  /// Paths that may hold progress/bookmarks for this document (ZH vs EN file names).
+  private var bundledProgressPaths: [String] {
+    guard case .bundled(let entry) = document else { return [] }
+    let mode = ReaderPreferenceDefaults.contentLanguageMode
+    let resolved = DocumentCatalog.resolvedBundledDocumentPath(
+      storedPath: entry.documentPath,
+      language: mode
+    )
+    return Array(Set([entry.documentPath, resolved]))
+  }
+
+  /// Primary path used when saving progress and bookmarks for bundled chapters.
+  private var storageDocumentPath: String {
+    switch document {
+    case .bundled(let entry):
+      let mode = ReaderPreferenceDefaults.contentLanguageMode
+      return DocumentCatalog.resolvedBundledDocumentPath(
+        storedPath: entry.documentPath,
+        language: mode
+      )
+    case .userGuide(let id):
+      return UserGuideRecord.documentPath(for: id)
+    }
+  }
+
   init(document: ReaderDocument) {
     self.document = document
   }
@@ -40,9 +65,17 @@ final class ReaderViewModel {
   func loadContent() {
     switch document {
     case .bundled(let entry):
-      markdown = MarkdownBundleLoader.loadString(documentPath: entry.documentPath) ?? ""
+      let mode = ReaderPreferenceDefaults.contentLanguageMode
+      let path = DocumentCatalog.resolvedBundledDocumentPath(
+        storedPath: entry.documentPath,
+        language: mode
+      )
+      markdown = MarkdownBundleLoader.loadString(documentPath: path) ?? ""
+      let titleFallback =
+        DocumentCatalog.catalogEntry(matchingStoredPath: entry.documentPath, language: mode)?
+        .displayTitle ?? entry.displayTitle
       navigationTitle =
-        MarkdownTitleExtractor.firstHeading(from: markdown) ?? entry.displayTitle
+        MarkdownTitleExtractor.firstHeading(from: markdown) ?? titleFallback
     case .userGuide(let id):
       markdown = ""
       navigationTitle = String(localized: "Guide")
@@ -69,16 +102,32 @@ final class ReaderViewModel {
   }
 
   private func loadProgressAndBookmarkState() {
-    let path = document.documentPath
+    let paths: [String]
+    switch document {
+    case .bundled:
+      paths = bundledProgressPaths
+    case .userGuide:
+      paths = [document.documentPath]
+    }
     do {
       try database.read { db in
-        if let p = try ReadingProgressRecord.where { $0.documentPath.eq(path) }.fetchOne(db) {
-          restoredOffsetY = CGFloat(p.scrollOffsetY)
-        } else {
-          restoredOffsetY = 0
+        var restored: CGFloat = 0
+        for p in paths {
+          if let row = try ReadingProgressRecord.where { $0.documentPath.eq(p) }.fetchOne(db) {
+            restored = CGFloat(row.scrollOffsetY)
+            break
+          }
         }
-        isBookmarked =
-          try BookmarkRecord.where { $0.documentPath.eq(path) }.fetchOne(db) != nil
+        restoredOffsetY = restored
+
+        var bookmarked = false
+        for p in paths {
+          if try BookmarkRecord.where { $0.documentPath.eq(p) }.fetchOne(db) != nil {
+            bookmarked = true
+            break
+          }
+        }
+        isBookmarked = bookmarked
       }
     } catch {
       #if DEBUG
@@ -107,18 +156,28 @@ final class ReaderViewModel {
   }
 
   private func persistProgress(offsetY: CGFloat) {
-    let path = document.documentPath
+    let primary = storageDocumentPath
+    let siblings: [String]
+    switch document {
+    case .bundled:
+      siblings = bundledProgressPaths
+    case .userGuide:
+      siblings = [primary]
+    }
     do {
       try database.write { db in
+        for p in siblings where p != primary {
+          try ReadingProgressRecord.where { $0.documentPath.eq(p) }.delete().execute(db)
+        }
         let y = Double(offsetY)
         let now = Date()
-        if var row = try ReadingProgressRecord.where { $0.documentPath.eq(path) }.fetchOne(db) {
+        if var row = try ReadingProgressRecord.where { $0.documentPath.eq(primary) }.fetchOne(db) {
           row.scrollOffsetY = y
           row.updatedAt = now
           try ReadingProgressRecord.update(row).execute(db)
         } else {
           try ReadingProgressRecord.insert {
-            ReadingProgressRecord.Draft(documentPath: path, scrollOffsetY: y, updatedAt: now)
+            ReadingProgressRecord.Draft(documentPath: primary, scrollOffsetY: y, updatedAt: now)
           }
           .execute(db)
         }
@@ -131,24 +190,38 @@ final class ReaderViewModel {
   }
 
   func toggleBookmark(displayTitle: String) {
-    let path = document.documentPath
+    let primary = storageDocumentPath
+    let siblings: [String]
+    switch document {
+    case .bundled:
+      siblings = bundledProgressPaths
+    case .userGuide:
+      siblings = [primary]
+    }
     do {
       try database.write { db in
-        if let row = try BookmarkRecord.where { $0.documentPath.eq(path) }.fetchOne(db) {
-          try BookmarkRecord
-            .where { $0.id.eq(row.id) }
-            .delete()
-            .execute(db)
+        var hadBookmark = false
+        for p in siblings {
+          if try BookmarkRecord.where { $0.documentPath.eq(p) }.fetchOne(db) != nil {
+            hadBookmark = true
+            break
+          }
+        }
+        if hadBookmark {
+          for p in siblings {
+            try BookmarkRecord.where { $0.documentPath.eq(p) }.delete().execute(db)
+          }
           isBookmarked = false
         } else {
           try BookmarkRecord.insert {
             BookmarkRecord.Draft(
-              documentPath: path,
+              documentPath: primary,
               displayTitle: displayTitle,
               createdAt: Date()
             )
           }
           .execute(db)
+          isBookmarked = true
         }
       }
     } catch {

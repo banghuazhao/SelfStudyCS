@@ -20,6 +20,47 @@ nonisolated struct CatalogSection: Identifiable, Hashable, Sendable {
 }
 
 enum DocumentCatalog {
+  /// Same logical chapter as `storedPath` (ignores `.en.md` vs `.md`), resolved for the current content language.
+  static func resolvedBundledDocumentPath(
+    storedPath: String,
+    language: ContentLanguageMode
+  ) -> String {
+    let targetStem = stemKey(forRelativePath: storedPath)
+    let pairs = BundledDocsLocator.allCatalogMarkdownFileURLs()
+    let matching = pairs.filter { stemKey(forRelativePath: $0.documentPath) == targetStem }
+    guard !matching.isEmpty else { return storedPath }
+    let urls = matching.map(\.url)
+    let prefersEnglish = language.resolvesToEnglish()
+    guard let chosen = resolveURL(in: urls, prefersEnglish: prefersEnglish) else {
+      return storedPath
+    }
+    return matching.first(where: { $0.url == chosen })?.documentPath ?? storedPath
+  }
+
+  /// Same chapter / template variant (e.g. `…/x.md` vs `…/x.en.md`).
+  static func sameLogicalDocument(_ pathA: String, _ pathB: String) -> Bool {
+    stemKey(forRelativePath: pathA) == stemKey(forRelativePath: pathB)
+  }
+
+  /// Finds the catalog row for a stored progress/bookmark path after a language switch.
+  static func catalogEntry(
+    matchingStoredPath storedPath: String,
+    language: ContentLanguageMode
+  ) -> CatalogEntry? {
+    let resolved = resolvedBundledDocumentPath(storedPath: storedPath, language: language)
+    let sections = build(language: language)
+    if let hit = sections.flatMap(\.entries).first(where: { $0.documentPath == resolved }) {
+      return hit
+    }
+    let stem = stemKey(forRelativePath: storedPath)
+    for section in sections {
+      if let hit = section.entries.first(where: { stemKey(forRelativePath: $0.documentPath) == stem }) {
+        return hit
+      }
+    }
+    return nil
+  }
+
   static func build(language: ContentLanguageMode) -> [CatalogSection] {
     let catalogFiles = BundledDocsLocator.allCatalogMarkdownFileURLs()
     let prefersEnglish = language.resolvesToEnglish()
@@ -33,7 +74,7 @@ enum DocumentCatalog {
     var entries: [CatalogEntry] = []
     for (stem, fileURLs) in groups {
       guard let chosen = resolveURL(in: fileURLs, prefersEnglish: prefersEnglish) else { continue }
-      guard let relative = BundledDocsLocator.pathRelativeToDocs(from: chosen) else { continue }
+      guard let relative = BundledDocsLocator.catalogRelativePath(from: chosen) else { continue }
       let section = sectionTitle(stem: stem, relative: relative, prefersEnglish: prefersEnglish)
       let title = displayTitle(fromRelativePath: relative, prefersEnglish: prefersEnglish)
       entries.append(

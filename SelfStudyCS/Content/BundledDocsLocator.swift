@@ -81,6 +81,14 @@ enum BundledDocsLocator {
     return pathRelative(root: root, from: fileURL)
   }
 
+  /// Relative path as stored in the catalog: `Docs/…` fragment or `Template/…`.
+  static func catalogRelativePath(from fileURL: URL) -> String? {
+    if let rel = pathRelativeToDocs(from: fileURL) { return rel }
+    guard let root = templateDirectoryURL else { return nil }
+    guard let rel = pathRelative(root: root, from: fileURL) else { return nil }
+    return "\(templateFolderName)/\(rel)"
+  }
+
   private static func pathRelative(root: URL, from fileURL: URL) -> String? {
     let rootPath = root.path
     let filePath = fileURL.standardizedFileURL.path

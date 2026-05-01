@@ -71,11 +71,15 @@ extension EnvironmentValues {
 
 /// Keeps large navigation titles visible with `toolbarBackground` (SwiftUI can otherwise wash out `largeTitleTextAttributes`).
 enum ReaderNavigationBarAppearance {
+  /// - Parameter userInterfaceStyle: Pass the style that matches `RootTabView`'s effective reader appearance
+  ///   (`preferredColorScheme` + theme). Resolving against `UITraitCollection.current` alone can mismatch after
+  ///   locale or hierarchy updates, producing wrong bar/title colors until the next theme change.
   @MainActor
-  static func apply(palette: ReaderPalette) {
-    let bg = UIColor(palette.background)
-    let fg = UIColor(palette.primaryText)
-    let tint = UIColor(palette.accent)
+  static func apply(palette: ReaderPalette, userInterfaceStyle: UIUserInterfaceStyle) {
+    let traits = UITraitCollection(userInterfaceStyle: userInterfaceStyle)
+    let bg = UIColor(palette.background).resolvedColor(with: traits)
+    let fg = UIColor(palette.primaryText).resolvedColor(with: traits)
+    let tint = UIColor(palette.accent).resolvedColor(with: traits)
 
     let appearance = UINavigationBarAppearance()
     appearance.configureWithOpaqueBackground()

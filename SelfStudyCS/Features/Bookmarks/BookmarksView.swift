@@ -34,6 +34,7 @@ private final class BookmarksViewModel {
 }
 
 struct BookmarksView: View {
+  @AppStorage(ReaderAppStorageKey.languageMode) private var languageMode = ReaderPreferenceDefaults.languageMode
   @State private var model = BookmarksViewModel()
 
   @Environment(\.readerPalette) private var palette
@@ -42,12 +43,9 @@ struct BookmarksView: View {
     if let id = UserGuideRecord.parseId(fromDocumentPath: record.documentPath) {
       return .userGuide(id: id)
     }
-    let mode = ReaderPreferenceDefaults.contentLanguageMode
-    let all = DocumentCatalog.build(language: mode)
-    for section in all {
-      if let hit = section.entries.first(where: { $0.documentPath == record.documentPath }) {
-        return .bundled(hit)
-      }
+    let mode = ContentLanguageMode(rawValue: languageMode) ?? .english
+    if let hit = DocumentCatalog.catalogEntry(matchingStoredPath: record.documentPath, language: mode) {
+      return .bundled(hit)
     }
     return .bundled(
       CatalogEntry(

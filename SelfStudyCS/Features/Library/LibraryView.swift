@@ -33,7 +33,7 @@ struct LibraryView: View {
               ContinueReadingRow(
                 title: cont.title,
                 subtitle: cont.subtitle,
-                showBookmark: appModel.bookmarkedDocumentPaths.contains(cont.document.documentPath)
+                showBookmark: appModel.isPathBookmarked(cont.document.documentPath)
               )
             }
             .listRowInsets(EdgeInsets(top: 10, leading: 16, bottom: 10, trailing: 16))
@@ -52,7 +52,7 @@ struct LibraryView: View {
               NavigationLink(value: entry) {
                 LibraryEntryRow(
                   title: entry.displayTitle,
-                  showBookmark: appModel.bookmarkedDocumentPaths.contains(entry.documentPath)
+                  showBookmark: appModel.isPathBookmarked(entry.documentPath)
                 )
               }
               .listRowBackground(palette.secondaryBackground)

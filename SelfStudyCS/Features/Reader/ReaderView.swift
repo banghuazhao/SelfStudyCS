@@ -12,6 +12,7 @@ struct ReaderView: View {
 
   @AppStorage(ReaderAppStorageKey.fontScale) private var fontScale = ReaderPreferenceDefaults.fontScale
   @AppStorage(ReaderAppStorageKey.lineSpacing) private var lineSpacing = ReaderPreferenceDefaults.lineSpacing
+  @AppStorage(ReaderAppStorageKey.languageMode) private var languageMode = ReaderPreferenceDefaults.languageMode
 
   @Environment(\.readerPalette) private var palette
   @State private var model: ReaderViewModel
@@ -136,7 +137,7 @@ struct ReaderView: View {
         .readerNavigationChrome()
       }
     }
-    .task {
+    .task(id: languageMode) {
       model.loadContent()
     }
     .onDisappear {
