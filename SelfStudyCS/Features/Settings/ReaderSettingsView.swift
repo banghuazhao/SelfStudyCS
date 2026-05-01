@@ -86,7 +86,10 @@ struct ReaderSettingsView: View {
         }
 
         Section {
-          LabeledContent("Version", value: "1.0")
+          LabeledContent(
+            String(localized: "Version"),
+            value: AppReleaseInfo.fullVersionLabel
+          )
           LabeledContent("Content", value: String(localized: "CS Self-Learning (bundled)"))
 
           VStack(alignment: .leading, spacing: 10) {
