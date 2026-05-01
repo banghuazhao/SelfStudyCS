@@ -72,22 +72,22 @@ struct RootTabView: View {
     TabView {
       LibraryView(appModel: appModel)
         .tabItem {
-          Label("Library", systemImage: "books.vertical.fill")
+          Label(String(localized: "Library"), systemImage: "books.vertical.fill")
         }
 
       BookmarksView()
         .tabItem {
-          Label("Bookmarks", systemImage: "bookmark.fill")
+          Label(String(localized: "Bookmarks"), systemImage: "bookmark.fill")
         }
 
       MyGuidesView()
         .tabItem {
-          Label("My guides", systemImage: "square.and.pencil")
+          Label(String(localized: "My guides"), systemImage: "square.and.pencil")
         }
 
       ReaderSettingsView()
         .tabItem {
-          Label("Settings", systemImage: "gearshape.fill")
+          Label(String(localized: "Settings"), systemImage: "gearshape.fill")
         }
     }
     .tint(palette.accent)

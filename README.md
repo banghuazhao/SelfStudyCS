@@ -11,6 +11,9 @@ Native reader for the [**CS Self-Learning**](https://github.com/PKUFlyingPig/cs-
 - **Privacy manifest:** `SelfStudyCS/PrivacyInfo.xcprivacy` declares **UserDefaults** (`CA92.1`) for reader preferences. If Xcode or App Store Connect reports missing required-reason APIs after linking updates, add the listed categories there.
 - **Display name:** **Self-Study CS** (`CFBundleDisplayName`); bundle id: `com.appsbay.SelfStudyCS` (change for your org before shipping).
 - **Third-party content & branding:** The bundled catalog follows **CS Self-Learning** licensing; keep copyright / attribution in the app and App Store description aligned with upstream (see **Credits**).
+- **Listing in App Store Connect:** Before submit, set **AppDistributionLinks.appStoreProductID** in code to your numeric ID (so Share and in-app links resolve). Add **subtitle** (≤30 chars), e.g. *Offline CS reader & notes*, and **promotional text** highlighting: bundled **CS Self-Learning** chapters, **themes**, **bookmarks**, **reading progress**, **My guides** with structured templates, **privacy-first** (on-device storage). Use **keywords** such as: computer science, CS, programming, Markdown, notes, offline, self-study, PKUFlyingPig, csdiy.
+- **Screenshots (storyboard):** (1) Library / Continue reading, (2) Reader + TOC in light or sepia, (3) Bookmarks, (4) My guides editor, (5) Settings showing Appearance + Support (rate / share / privacy). Show **iPhone** and **iPad** if you ship universal.
+- **Localization:** `Localizable.xcstrings` includes **Simplified Chinese** for tab titles and the **Support** section so the listing can target **English + Chinese** regions consistently with in-app **Content language**.
 
 ## My guides (your notes)
 

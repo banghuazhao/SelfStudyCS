@@ -4,6 +4,7 @@
 //
 
 import SwiftUI
+import StoreKit
 
 struct ReaderSettingsView: View {
   @AppStorage(ReaderAppStorageKey.fontScale) private var fontScale = ReaderPreferenceDefaults.fontScale
@@ -12,6 +13,7 @@ struct ReaderSettingsView: View {
   @AppStorage(ReaderAppStorageKey.languageMode) private var languageRaw = ReaderPreferenceDefaults.languageMode
 
   @Environment(\.readerPalette) private var palette
+  @Environment(\.requestReview) private var requestReview
 
   var body: some View {
     NavigationStack {
@@ -83,6 +85,35 @@ struct ReaderSettingsView: View {
           Text(
             "English uses files ending in .en.md when available. Chinese uses the primary .md file. The library refreshes when language changes."
           )
+        }
+
+        Section {
+          Button {
+            requestReview()
+          } label: {
+            Label(String(localized: "Rate on the App Store"), systemImage: "star.fill")
+          }
+          .listRowBackground(palette.secondaryBackground)
+
+          ShareLink(
+            item: AppDistributionLinks.appStoreListingURL,
+            subject: Text("Self-Study CS"),
+            message: Text(String(localized: "Help others discover this reader."))
+          ) {
+            Label(String(localized: "Share Self-Study CS"), systemImage: "square.and.arrow.up")
+          }
+          .listRowBackground(palette.secondaryBackground)
+
+          NavigationLink {
+            PrivacyPolicyView()
+          } label: {
+            Label(String(localized: "Privacy"), systemImage: "hand.raised.fill")
+          }
+          .listRowBackground(palette.secondaryBackground)
+        } header: {
+          Text(String(localized: "Support"))
+        } footer: {
+          Text(String(localized: "Love the app? A quick rating helps a lot."))
         }
 
         Section {

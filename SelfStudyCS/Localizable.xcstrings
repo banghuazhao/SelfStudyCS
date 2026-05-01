@@ -1,0 +1,403 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "“Match System” uses a light palette when the device is in light mode and a dark palette when the device is in dark mode." : {
+      "comment" : "Explains match system theme"
+    },
+    "`inline code`" : {
+
+    },
+    "About" : {
+
+    },
+    "Accent" : {
+      "comment" : "Sample accent label"
+    },
+    "Adjust typography to match how you like to read long technical chapters." : {
+
+    },
+    "All fields in this section are optional. Leave blank to show an empty bullet in the guide." : {
+      "comment" : "Descriptions section footer"
+    },
+    "Amber paper tone, similar to warm e-reader modes." : {
+      "comment" : "Subtitle for Sepia theme"
+    },
+    "Analytics and ads" : {
+      "comment" : "Privacy section title"
+    },
+    "Appearance" : {
+
+    },
+    "Assignments" : {
+      "comment" : "Optional field label"
+    },
+    "Bookmark" : {
+
+    },
+    "Bookmarked" : {
+
+    },
+    "Bookmarks" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "书签"
+          }
+        }
+      }
+    },
+    "Bookmarks, reading progress, reader settings, and My guides content are stored locally in a database on this device. They are not uploaded to our servers because this app does not provide its own cloud service." : {
+      "comment" : "Privacy local data explanation"
+    },
+    "Bundled course materials" : {
+      "comment" : "Privacy section title"
+    },
+    "Cancel" : {
+
+    },
+    "Chapter text ships inside the app from the open CS Self-Learning project. Opening links in Safari (for example from Settings) follows that website’s policies." : {
+      "comment" : "Privacy bundled content"
+    },
+    "Chinese" : {
+
+    },
+    "Class hour" : {
+      "comment" : "Optional field label"
+    },
+    "Content" : {
+
+    },
+    "Contents" : {
+
+    },
+    "Continue" : {
+
+    },
+    "Continue reading" : {
+
+    },
+    "Couldn’t load chapter" : {
+
+    },
+    "Course" : {
+      "comment" : "User guide template section"
+    },
+    "Course code" : {
+      "comment" : "e.g. CS162"
+    },
+    "Course name" : {
+      "comment" : "e.g. Operating systems"
+    },
+    "Course notes come from the open CS Self-Learning guide by PKUFlyingPig and contributors." : {
+      "comment" : "Attribution to original repository author"
+    },
+    "Course resources" : {
+      "comment" : "User guide template section"
+    },
+    "Course template" : {
+      "comment" : "Library section for writing templates"
+    },
+    "Course website" : {
+      "comment" : "Optional URL or text"
+    },
+    "Create a guide to write your own notes in Markdown. They are saved on this device." : {
+
+    },
+    "CS Self-Learning (bundled)" : {
+
+    },
+    "CS Self-Learning on GitHub" : {
+
+    },
+    "Dark" : {
+
+    },
+    "Data on your device" : {
+      "comment" : "Privacy section title"
+    },
+    "Descriptions" : {
+      "comment" : "User guide template section"
+    },
+    "Difficulty" : {
+      "comment" : "A11y difficulty\nStar difficulty"
+    },
+    "Done" : {
+
+    },
+    "Edit" : {
+
+    },
+    "Edit course" : {
+      "comment" : "Edit user guide editor title"
+    },
+    "English" : {
+
+    },
+    "English uses files ending in .en.md when available. Chinese uses the primary .md file. The library refreshes when language changes." : {
+
+    },
+    "Example" : {
+      "comment" : "Sample preview of reader colors"
+    },
+    "Guide" : {
+
+    },
+    "Help others discover this reader." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "把这款阅读器推荐给其他人。"
+          }
+        }
+      }
+    },
+    "How we treat your data." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我们如何处理您的数据。"
+          }
+        }
+      }
+    },
+    "Introduction" : {
+      "comment" : "Prose under Descriptions"
+    },
+    "Language" : {
+
+    },
+    "Library" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "书库"
+          }
+        }
+      }
+    },
+    "Light" : {
+
+    },
+    "Light or dark reader palettes follow the device appearance." : {
+      "comment" : "Subtitle for Match System theme"
+    },
+    "Line spacing" : {
+
+    },
+    "Love the app? A quick rating helps a lot." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "喜欢这款应用吗？评分对我们很有帮助。"
+          }
+        }
+      }
+    },
+    "Match System" : {
+
+    },
+    "My guides" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我的指南"
+          }
+        }
+      }
+    },
+    "New course" : {
+      "comment" : "New user guide editor title\nToolbar create course guide"
+    },
+    "No bookmarks yet" : {
+
+    },
+    "No guides yet" : {
+
+    },
+    "Nothing here yet" : {
+
+    },
+    "Offered by" : {
+      "comment" : "Optional field label"
+    },
+    "Optional fields for links or notes about course materials." : {
+      "comment" : "Course resources footer"
+    },
+    "Optional: your overview replaces the HTML comment block from the template. Leave empty to keep the comment placeholder in the saved Markdown." : {
+      "comment" : "Introduction footer"
+    },
+    "Optional. Leave empty to use the template line with @XXX and a GitHub link placeholder." : {
+      "comment" : "Personal resources footer"
+    },
+    "Personal resources" : {
+      "comment" : "User guide template section"
+    },
+    "Prerequisites" : {
+      "comment" : "Optional field label"
+    },
+    "Privacy" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隐私"
+          }
+        }
+      }
+    },
+    "Programming languages" : {
+      "comment" : "Optional field label"
+    },
+    "Project & attribution" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "项目与署名"
+          }
+        }
+      }
+    },
+    "Rate on the App Store" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App Store 评分"
+          }
+        }
+      }
+    },
+    "Read online — csdiy.wiki" : {
+
+    },
+    "Reading comfort" : {
+
+    },
+    "Recordings" : {
+      "comment" : "Optional field label"
+    },
+    "Remove bookmark" : {
+
+    },
+    "Sample course entry" : {
+      "comment" : "Template doc title in library"
+    },
+    "Save" : {
+
+    },
+    "Save chapters from the reader to find them here." : {
+
+    },
+    "Search chapters" : {
+
+    },
+    "Secondary text uses a softer color. Lists and cards use the elevated surface behind this panel." : {
+      "comment" : "Sample secondary text for theme preview"
+    },
+    "Selected" : {
+
+    },
+    "Self-Study CS" : {
+
+    },
+    "Sepia" : {
+
+    },
+    "Settings" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设置"
+          }
+        }
+      }
+    },
+    "Share Self-Study CS" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享 Self-Study CS"
+          }
+        }
+      }
+    },
+    "Soft dark surfaces for low-light reading." : {
+      "comment" : "Subtitle for Dark theme"
+    },
+    "Support" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "支持"
+          }
+        }
+      }
+    },
+    "Table of contents" : {
+
+    },
+    "Tap a theme to apply it everywhere. The preview below shows body text, secondary text, code surfaces, and accent for your current choice." : {
+      "comment" : "Appearance theme section footer"
+    },
+    "Tap Edit to add Markdown, or write a title and body in My Guides." : {
+
+    },
+    "Text size" : {
+
+    },
+    "Textbooks" : {
+      "comment" : "Optional field label"
+    },
+    "The quick brown fox" : {
+      "comment" : "Sample title text for theme preview"
+    },
+    "Theme" : {
+      "comment" : "Appearance section header"
+    },
+    "This app is designed for offline reading and your own notes." : {
+      "comment" : "Privacy intro"
+    },
+    "This file may be missing from the app bundle." : {
+
+    },
+    "Together these become the top heading: # Code: Name" : {
+      "comment" : "Footer for course identity fields"
+    },
+    "Untitled" : {
+      "comment" : "User guide list title when empty"
+    },
+    "Untitled guide" : {
+
+    },
+    "Use My guides to write notes stored on this device. The bundled “Course template” in the library is a reference for Markdown structure; to ship new pages inside the app, add files under Docs and rebuild." : {
+      "comment" : "Explains My guides vs bundled Template/Docs"
+    },
+    "Version" : {
+
+    },
+    "Warm paper-like backgrounds regardless of device mode." : {
+      "comment" : "Subtitle for Light theme"
+    },
+    "We do not run in-app advertising or cross-app tracking. Apple may collect standard App Store diagnostics according to your device settings." : {
+      "comment" : "Privacy analytics"
+    },
+    "课程条目示例" : {
+      "comment" : "Template doc title in library"
+    },
+    "课程模板" : {
+      "comment" : "Library section for writing templates"
+    }
+  },
+  "version" : "1.0"
+}
