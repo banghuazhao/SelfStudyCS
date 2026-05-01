@@ -122,7 +122,7 @@ struct ReaderSettingsView: View {
       }
       .readerScreenBackground()
       .navigationTitle("Settings")
-      .navigationBarTitleDisplayMode(.large)
+      .navigationBarTitleDisplayMode(.inline)
       .readerNavigationChrome()
     }
     .background(palette.background)

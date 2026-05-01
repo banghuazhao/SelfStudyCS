@@ -15,9 +15,18 @@ final class AppViewModel {
   var readingProgress: [ReadingProgressRecord]
 
   @ObservationIgnored
+  @FetchAll(BookmarkRecord.order { $0.createdAt.desc() })
+  var bookmarks: [BookmarkRecord]
+
+  @ObservationIgnored
   @Dependency(\.defaultDatabase) private var database
 
   private(set) var catalog: [CatalogSection] = []
+
+  /// Quick lookup for list row bookmark icons.
+  var bookmarkedDocumentPaths: Set<String> {
+    Set(bookmarks.map(\.documentPath))
+  }
 
   func refreshCatalog() {
     catalog = DocumentCatalog.build(language: ReaderPreferenceDefaults.contentLanguageMode)

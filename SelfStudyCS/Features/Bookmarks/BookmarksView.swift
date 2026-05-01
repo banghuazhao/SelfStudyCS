@@ -89,7 +89,7 @@ struct BookmarksView: View {
         }
       }
       .navigationTitle("Bookmarks")
-      .navigationBarTitleDisplayMode(.large)
+      .navigationBarTitleDisplayMode(.inline)
       .navigationDestination(for: ReaderDocument.self) { doc in
         ReaderView(document: doc)
       }

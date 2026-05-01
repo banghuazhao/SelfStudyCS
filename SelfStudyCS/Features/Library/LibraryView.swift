@@ -30,7 +30,11 @@ struct LibraryView: View {
         if let cont = appModel.continueReadingPresentation {
           Section {
             NavigationLink(value: cont.document) {
-              ContinueReadingRow(title: cont.title, subtitle: cont.subtitle)
+              ContinueReadingRow(
+                title: cont.title,
+                subtitle: cont.subtitle,
+                showBookmark: appModel.bookmarkedDocumentPaths.contains(cont.document.documentPath)
+              )
             }
             .listRowInsets(EdgeInsets(top: 10, leading: 16, bottom: 10, trailing: 16))
             .listRowBackground(palette.secondaryBackground)
@@ -46,11 +50,10 @@ struct LibraryView: View {
           Section {
             ForEach(section.entries) { entry in
               NavigationLink(value: entry) {
-                Text(entry.displayTitle)
-                  .font(.body.weight(.medium))
-                  .foregroundStyle(.primary)
-                  .frame(maxWidth: .infinity, alignment: .leading)
-                  .padding(.vertical, 6)
+                LibraryEntryRow(
+                  title: entry.displayTitle,
+                  showBookmark: appModel.bookmarkedDocumentPaths.contains(entry.documentPath)
+                )
               }
               .listRowBackground(palette.secondaryBackground)
             }
@@ -65,7 +68,7 @@ struct LibraryView: View {
       .listStyle(.insetGrouped)
       .readerScreenBackground()
       .navigationTitle("Library")
-      .navigationBarTitleDisplayMode(.large)
+      .navigationBarTitleDisplayMode(.inline)
       .searchable(text: $query, prompt: "Search chapters")
       .navigationDestination(for: CatalogEntry.self) { entry in
         ReaderView(entry: entry)
@@ -79,9 +82,35 @@ struct LibraryView: View {
   }
 }
 
+private struct LibraryEntryRow: View {
+  let title: String
+  let showBookmark: Bool
+  @Environment(\.readerPalette) private var palette
+
+  var body: some View {
+    HStack(alignment: .center, spacing: 10) {
+      Text(title)
+        .font(.body.weight(.medium))
+        .foregroundStyle(.primary)
+        .multilineTextAlignment(.leading)
+        .frame(maxWidth: .infinity, alignment: .leading)
+
+      if showBookmark {
+        Image(systemName: "bookmark.fill")
+          .font(.body.weight(.semibold))
+          .foregroundStyle(palette.accent)
+          .accessibilityLabel(String(localized: "Bookmarked"))
+      }
+    }
+    .padding(.vertical, 6)
+  }
+}
+
 private struct ContinueReadingRow: View {
   let title: String
   let subtitle: String
+  var showBookmark: Bool = false
+  @Environment(\.readerPalette) private var palette
 
   var body: some View {
     HStack(spacing: 14) {
@@ -100,6 +129,12 @@ private struct ContinueReadingRow: View {
           .foregroundStyle(.secondary)
       }
       Spacer(minLength: 0)
+      if showBookmark {
+        Image(systemName: "bookmark.fill")
+          .font(.body.weight(.semibold))
+          .foregroundStyle(palette.accent)
+          .accessibilityLabel(String(localized: "Bookmarked"))
+      }
     }
     .padding(.vertical, 4)
   }

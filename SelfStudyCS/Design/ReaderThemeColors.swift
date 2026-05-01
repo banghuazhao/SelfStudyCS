@@ -4,6 +4,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct ReaderPalette: Equatable, Sendable {
   let background: Color
@@ -65,6 +66,30 @@ extension EnvironmentValues {
   var readerPalette: ReaderPalette {
     get { self[ReaderPaletteKey.self] }
     set { self[ReaderPaletteKey.self] = newValue }
+  }
+}
+
+/// Keeps large navigation titles visible with `toolbarBackground` (SwiftUI can otherwise wash out `largeTitleTextAttributes`).
+enum ReaderNavigationBarAppearance {
+  @MainActor
+  static func apply(palette: ReaderPalette) {
+    let bg = UIColor(palette.background)
+    let fg = UIColor(palette.primaryText)
+    let tint = UIColor(palette.accent)
+
+    let appearance = UINavigationBarAppearance()
+    appearance.configureWithOpaqueBackground()
+    appearance.backgroundColor = bg
+    appearance.titleTextAttributes = [.foregroundColor: fg]
+    appearance.largeTitleTextAttributes = [.foregroundColor: fg]
+    appearance.shadowColor = .clear
+
+    let bar = UINavigationBar.appearance()
+    bar.standardAppearance = appearance
+    bar.scrollEdgeAppearance = appearance
+    bar.compactAppearance = appearance
+    bar.compactScrollEdgeAppearance = appearance
+    bar.tintColor = tint
   }
 }
 

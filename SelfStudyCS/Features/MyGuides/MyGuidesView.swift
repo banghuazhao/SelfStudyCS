@@ -15,7 +15,19 @@ private final class MyGuidesViewModel {
   var guides: [UserGuideRecord]
 
   @ObservationIgnored
+  @FetchAll(BookmarkRecord.order { $0.createdAt.desc() })
+  var bookmarks: [BookmarkRecord]
+
+  @ObservationIgnored
   @Dependency(\.defaultDatabase) var database
+
+  private var bookmarkedPaths: Set<String> {
+    Set(bookmarks.map(\.documentPath))
+  }
+
+  func isGuideBookmarked(id: Int) -> Bool {
+    bookmarkedPaths.contains(UserGuideRecord.documentPath(for: id))
+  }
 
   func delete(at offsets: IndexSet) {
     let ids = offsets.map { guides[$0].id }
@@ -75,12 +87,22 @@ struct MyGuidesView: View {
           List {
             ForEach(model.guides) { guide in
               NavigationLink(value: ReaderDocument.userGuide(id: guide.id)) {
-                VStack(alignment: .leading, spacing: 4) {
-                  Text(guide.title.isEmpty ? String(localized: "Untitled") : guide.title)
-                    .font(.body.weight(.medium))
-                  Text(guide.updatedAt, format: .dateTime.day().month().year().hour().minute())
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                HStack(alignment: .center, spacing: 10) {
+                  VStack(alignment: .leading, spacing: 4) {
+                    Text(guide.title.isEmpty ? String(localized: "Untitled") : guide.title)
+                      .font(.body.weight(.medium))
+                    Text(guide.updatedAt, format: .dateTime.day().month().year().hour().minute())
+                      .font(.caption)
+                      .foregroundStyle(.secondary)
+                  }
+                  .frame(maxWidth: .infinity, alignment: .leading)
+
+                  if model.isGuideBookmarked(id: guide.id) {
+                    Image(systemName: "bookmark.fill")
+                      .font(.body.weight(.semibold))
+                      .foregroundStyle(palette.accent)
+                      .accessibilityLabel(String(localized: "Bookmarked"))
+                  }
                 }
                 .padding(.vertical, 4)
               }
@@ -93,7 +115,7 @@ struct MyGuidesView: View {
         }
       }
       .navigationTitle(String(localized: "My guides"))
-      .navigationBarTitleDisplayMode(.large)
+      .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .topBarTrailing) {
           Button {

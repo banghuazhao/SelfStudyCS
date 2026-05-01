@@ -60,7 +60,18 @@ struct RootTabView: View {
     .preferredColorScheme(preferredSystemColorScheme)
     .environment(\.readerPalette, palette)
     .onAppear {
+      ReaderNavigationBarAppearance.apply(palette: palette)
       appModel.refreshCatalog()
+    }
+    .onChange(of: themeRaw) { _, _ in
+      ReaderNavigationBarAppearance.apply(
+        palette: ReaderPaletteResolver.palette(theme: resolvedTheme, colorScheme: colorScheme)
+      )
+    }
+    .onChange(of: colorScheme) { _, _ in
+      ReaderNavigationBarAppearance.apply(
+        palette: ReaderPaletteResolver.palette(theme: resolvedTheme, colorScheme: colorScheme)
+      )
     }
     .onChange(of: languageMode) { _, _ in
       appModel.refreshCatalog()
