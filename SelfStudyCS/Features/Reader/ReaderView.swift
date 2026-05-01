@@ -42,7 +42,12 @@ struct ReaderView: View {
 
   var body: some View {
     Group {
-      if model.markdown.isEmpty {
+      if model.isLoading {
+        ProgressView()
+          .tint(palette.accent)
+          .controlSize(.large)
+          .frame(maxWidth: .infinity, maxHeight: .infinity)
+      } else if model.markdown.isEmpty {
         ContentUnavailableView(
           emptyTitle,
           systemImage: "doc.text",
@@ -68,7 +73,11 @@ struct ReaderView: View {
       }
     }
     .background(palette.background)
-    .navigationTitle(model.navigationTitle)
+    .navigationTitle(
+      model.isLoading
+        ? String(localized: "Loading…", comment: "Reader navigation title while chapter loads")
+        : model.navigationTitle
+    )
     .navigationBarTitleDisplayMode(.inline)
     .toolbar {
       ToolbarItemGroup(placement: .topBarTrailing) {
@@ -79,20 +88,22 @@ struct ReaderView: View {
             Label("Edit", systemImage: "square.and.pencil")
           }
         }
-        if !model.headings.isEmpty {
+        if !model.isLoading, !model.headings.isEmpty {
           Button {
             showTOC = true
           } label: {
             Label("Table of contents", systemImage: "list.bullet")
           }
         }
-        Button {
-          model.toggleBookmark(displayTitle: model.navigationTitle)
-        } label: {
-          Label(
-            model.isBookmarked ? "Remove bookmark" : "Bookmark",
-            systemImage: model.isBookmarked ? "bookmark.fill" : "bookmark"
-          )
+        if !model.isLoading {
+          Button {
+            model.toggleBookmark(displayTitle: model.navigationTitle)
+          } label: {
+            Label(
+              model.isBookmarked ? "Remove bookmark" : "Bookmark",
+              systemImage: model.isBookmarked ? "bookmark.fill" : "bookmark"
+            )
+          }
         }
       }
     }

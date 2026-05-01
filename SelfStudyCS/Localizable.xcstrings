@@ -180,6 +180,17 @@
         }
       }
     },
+    "Loading…" : {
+      "comment" : "Reader navigation title while chapter loads",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加载中…"
+          }
+        }
+      }
+    },
     "Light" : {
 
     },

@@ -12,6 +12,8 @@ import SQLiteData
 final class ReaderViewModel {
   let document: ReaderDocument
 
+  /// `true` until the current `loadContent()` finishes (avoids a flash of the empty / error UI).
+  private(set) var isLoading = true
   private(set) var markdown: String = ""
   /// First `#` heading in the file (preferred navigation title; not the filename).
   private(set) var navigationTitle: String = ""
@@ -63,6 +65,9 @@ final class ReaderViewModel {
   }
 
   func loadContent() {
+    isLoading = true
+    defer { isLoading = false }
+
     switch document {
     case .bundled(let entry):
       let mode = ReaderPreferenceDefaults.contentLanguageMode
