@@ -12,9 +12,20 @@
 		999F95022F9ED500004D4D99 /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 999F95012F9ED500004D4D99 /* Dependencies */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		A0B1C2D32F9E0109004D4D99 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 999F92A32F9ED291004D4D99 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 999F92AA2F9ED291004D4D99;
+			remoteInfo = SelfStudyCS;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		999F92AB2F9ED291004D4D99 /* SelfStudyCS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SelfStudyCS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		999F92BB2F9ED2C8004D4D99 /* Docs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Docs; sourceTree = "<group>"; };
+		A0B1C2D32F9E0104004D4D99 /* SelfStudyCSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SelfStudyCSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -26,6 +37,11 @@
 		999F96282F9F7817004D4D99 /* Template */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Template;
+			sourceTree = "<group>";
+		};
+		A0B1C2D32F9E0105004D4D99 /* SelfStudyCSUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = SelfStudyCSUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -40,6 +56,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A0B1C2D32F9E0101004D4D99 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -48,6 +71,7 @@
 			children = (
 				999F92BB2F9ED2C8004D4D99 /* Docs */,
 				999F92AD2F9ED291004D4D99 /* SelfStudyCS */,
+				A0B1C2D32F9E0105004D4D99 /* SelfStudyCSUITests */,
 				999F92AC2F9ED291004D4D99 /* Products */,
 				999F96282F9F7817004D4D99 /* Template */,
 			);
@@ -57,6 +81,7 @@
 			isa = PBXGroup;
 			children = (
 				999F92AB2F9ED291004D4D99 /* SelfStudyCS.app */,
+				A0B1C2D32F9E0104004D4D99 /* SelfStudyCSUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -89,6 +114,29 @@
 			productReference = 999F92AB2F9ED291004D4D99 /* SelfStudyCS.app */;
 			productType = "com.apple.product-type.application";
 		};
+		A0B1C2D32F9E0100004D4D99 /* SelfStudyCSUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A0B1C2D32F9E0106004D4D99 /* Build configuration list for PBXNativeTarget "SelfStudyCSUITests" */;
+			buildPhases = (
+				A0B1C2D32F9E0103004D4D99 /* Sources */,
+				A0B1C2D32F9E0101004D4D99 /* Frameworks */,
+				A0B1C2D32F9E0102004D4D99 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A0B1C2D32F9E010A004D4D99 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A0B1C2D32F9E0105004D4D99 /* SelfStudyCSUITests */,
+			);
+			name = SelfStudyCSUITests;
+			packageProductDependencies = (
+			);
+			productName = SelfStudyCSUITests;
+			productReference = A0B1C2D32F9E0104004D4D99 /* SelfStudyCSUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -101,6 +149,10 @@
 				TargetAttributes = {
 					999F92AA2F9ED291004D4D99 = {
 						CreatedOnToolsVersion = 26.3;
+					};
+					A0B1C2D32F9E0100004D4D99 = {
+						CreatedOnToolsVersion = 26.3;
+						TestTargetID = 999F92AA2F9ED291004D4D99;
 					};
 				};
 			};
@@ -124,6 +176,7 @@
 			projectRoot = "";
 			targets = (
 				999F92AA2F9ED291004D4D99 /* SelfStudyCS */,
+				A0B1C2D32F9E0100004D4D99 /* SelfStudyCSUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -137,6 +190,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A0B1C2D32F9E0102004D4D99 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -147,7 +207,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A0B1C2D32F9E0103004D4D99 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A0B1C2D32F9E010A004D4D99 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 999F92AA2F9ED291004D4D99 /* SelfStudyCS */;
+			targetProxy = A0B1C2D32F9E0109004D4D99 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		999F92B42F9ED293004D4D99 /* Debug */ = {
@@ -343,6 +418,48 @@
 			};
 			name = Release;
 		};
+		A0B1C2D32F9E0107004D4D99 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = F694X76A5X;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.appsbay.SelfStudyCSUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = SelfStudyCS;
+			};
+			name = Debug;
+		};
+		A0B1C2D32F9E0108004D4D99 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = F694X76A5X;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.appsbay.SelfStudyCSUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = SelfStudyCS;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -360,6 +477,15 @@
 			buildConfigurations = (
 				999F92B72F9ED293004D4D99 /* Debug */,
 				999F92B82F9ED293004D4D99 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A0B1C2D32F9E0106004D4D99 /* Build configuration list for PBXNativeTarget "SelfStudyCSUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A0B1C2D32F9E0107004D4D99 /* Debug */,
+				A0B1C2D32F9E0108004D4D99 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

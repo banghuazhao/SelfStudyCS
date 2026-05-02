@@ -94,6 +94,7 @@ struct ReaderView: View {
           } label: {
             Label("Table of contents", systemImage: "list.bullet")
           }
+          .accessibilityIdentifier("ReaderToolbar.tableOfContents")
         }
         if !model.isLoading {
           Button {
@@ -104,6 +105,7 @@ struct ReaderView: View {
               systemImage: model.isBookmarked ? "bookmark.fill" : "bookmark"
             )
           }
+          .accessibilityIdentifier("ReaderToolbar.bookmark")
         }
       }
     }

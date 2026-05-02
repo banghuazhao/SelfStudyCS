@@ -11,6 +11,12 @@ struct LibraryView: View {
 
   @Environment(\.readerPalette) private var palette
 
+  private enum CatalogRowAccessibility {
+    static func identifier(documentPath: String) -> String {
+      "library.row.\(documentPath.replacingOccurrences(of: "/", with: "."))"
+    }
+  }
+
   private var filteredSections: [CatalogSection] {
     let q = query.trimmingCharacters(in: .whitespacesAndNewlines)
     guard !q.isEmpty else { return appModel.catalog }
@@ -55,6 +61,7 @@ struct LibraryView: View {
                   showBookmark: appModel.isPathBookmarked(entry.documentPath)
                 )
               }
+              .accessibilityIdentifier(CatalogRowAccessibility.identifier(documentPath: entry.documentPath))
               .listRowBackground(palette.secondaryBackground)
             }
           } header: {
