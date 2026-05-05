@@ -11,6 +11,7 @@ import SwiftUI
 struct SelfStudyCSApp: App {
   init() {
     ReaderPreferenceDefaults.register()
+    AdMobBootstrap.startIfNeeded()
     prepareDependencies {
       $0.defaultDatabase = try! AppDatabase.makeWriter()
     }

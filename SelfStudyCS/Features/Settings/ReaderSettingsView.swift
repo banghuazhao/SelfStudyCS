@@ -159,6 +159,8 @@ struct ReaderSettingsView: View {
             )
           )
         }
+
+        TabScrollBanner.listBottomSection()
       }
       .readerScreenBackground()
       .navigationTitle("Settings")

@@ -81,7 +81,7 @@ struct ReaderView: View {
     .navigationBarTitleDisplayMode(.inline)
     .toolbar {
       ToolbarItemGroup(placement: .topBarTrailing) {
-        if let id = userGuideIdForEditor {
+        if userGuideIdForEditor != nil {
           Button {
             showEditor = true
           } label: {

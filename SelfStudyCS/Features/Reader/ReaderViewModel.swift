@@ -85,13 +85,13 @@ final class ReaderViewModel {
       markdown = ""
       navigationTitle = String(localized: "Guide")
       do {
-        try database.read { db in
+        try database.read({ db in
           if let g = try UserGuideRecord.where { $0.id.eq(id) }.fetchOne(db) {
             markdown = g.markdownBody
             navigationTitle =
               MarkdownTitleExtractor.firstHeading(from: markdown) ?? g.title
           }
-        }
+        })
       } catch {
         #if DEBUG
           print("Load user guide failed: \(error)")
@@ -115,7 +115,7 @@ final class ReaderViewModel {
       paths = [document.documentPath]
     }
     do {
-      try database.read { db in
+      try database.read({ db in
         var restored: CGFloat = 0
         for p in paths {
           if let row = try ReadingProgressRecord.where { $0.documentPath.eq(p) }.fetchOne(db) {
@@ -133,7 +133,7 @@ final class ReaderViewModel {
           }
         }
         isBookmarked = bookmarked
-      }
+      })
     } catch {
       #if DEBUG
         print("Load progress failed: \(error)")
@@ -170,7 +170,7 @@ final class ReaderViewModel {
       siblings = [primary]
     }
     do {
-      try database.write { db in
+      try database.write({ db in
         for p in siblings where p != primary {
           try ReadingProgressRecord.where { $0.documentPath.eq(p) }.delete().execute(db)
         }
@@ -186,7 +186,7 @@ final class ReaderViewModel {
           }
           .execute(db)
         }
-      }
+      })
     } catch {
       #if DEBUG
         print("Save progress failed: \(error)")
@@ -204,7 +204,7 @@ final class ReaderViewModel {
       siblings = [primary]
     }
     do {
-      try database.write { db in
+      try database.write({ db in
         var hadBookmark = false
         for p in siblings {
           if try BookmarkRecord.where { $0.documentPath.eq(p) }.fetchOne(db) != nil {
@@ -228,7 +228,7 @@ final class ReaderViewModel {
           .execute(db)
           isBookmarked = true
         }
-      }
+      })
     } catch {
       #if DEBUG
         print("Bookmark toggle failed: \(error)")

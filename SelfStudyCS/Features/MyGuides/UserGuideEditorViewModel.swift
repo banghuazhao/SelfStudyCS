@@ -80,7 +80,7 @@ final class UserGuideEditorViewModel {
       return
     }
     do {
-      try database.read { db in
+      try database.read({ db in
         guard let g = try UserGuideRecord.where { $0.id.eq(guideId) }.fetchOne(db) else {
           return
         }
@@ -103,7 +103,7 @@ final class UserGuideEditorViewModel {
         } else {
           draft = EditableGuideTemplate()
         }
-      }
+      })
     } catch {
       #if DEBUG
         print("Load guide for edit failed: \(error)")
@@ -117,7 +117,7 @@ final class UserGuideEditorViewModel {
     let markdown = form.renderMarkdown()
     let listTitle = form.displayListTitle
     let now = Date()
-    try database.write { db in
+    try database.write({ db in
       if let guideId {
         guard var row = try UserGuideRecord.where { $0.id.eq(guideId) }.fetchOne(db) else { return }
         row.title = listTitle
@@ -137,6 +137,6 @@ final class UserGuideEditorViewModel {
         }
         .execute(db)
       }
-    }
+    })
   }
 }

@@ -9,7 +9,8 @@
 
 import Foundation
 
-enum MarkdownHTMLConverter {
+/// Opts out of target-wide default MainActor isolation (see `SWIFT_DEFAULT_ACTOR_ISOLATION`).
+nonisolated enum MarkdownHTMLConverter {
 
   // MARK: - Public entry point
 

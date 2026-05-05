@@ -39,6 +39,9 @@ struct BookmarksView: View {
 
   @Environment(\.readerPalette) private var palette
 
+  /// Footer ad only when the list is long enough that the banner does not sit directly under one or two rows (less visually dominant on tall phones / dark mode).
+  private static let minBookmarkCountForListFooterAd = 3
+
   private func readerDestination(for record: BookmarkRecord) -> ReaderDocument {
     if let id = UserGuideRecord.parseId(fromDocumentPath: record.documentPath) {
       return .userGuide(id: id)
@@ -80,6 +83,10 @@ struct BookmarksView: View {
             }
             .onDelete { indexSet in
               indexSet.map { model.bookmarks[$0] }.forEach(model.remove)
+            }
+
+            if model.bookmarks.count >= Self.minBookmarkCountForListFooterAd {
+              TabScrollBanner.listBottomSection()
             }
           }
           .listStyle(.insetGrouped)

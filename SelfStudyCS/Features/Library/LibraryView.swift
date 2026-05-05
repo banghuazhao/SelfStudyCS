@@ -71,6 +71,8 @@ struct LibraryView: View {
               .textCase(nil)
           }
         }
+
+        TabScrollBanner.listBottomSection()
       }
       .listStyle(.insetGrouped)
       .readerScreenBackground()

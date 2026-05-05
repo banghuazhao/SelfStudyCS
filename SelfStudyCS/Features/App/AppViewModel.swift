@@ -36,11 +36,11 @@ final class AppViewModel {
     guard let path = readingProgress.first?.documentPath else { return nil }
     if let ugId = UserGuideRecord.parseId(fromDocumentPath: path) {
       var title = String(localized: "Untitled guide")
-      try? database.read { db in
+      try? database.read({ db in
         if let g = try UserGuideRecord.where { $0.id.eq(ugId) }.fetchOne(db) {
           title = g.title.isEmpty ? String(localized: "Untitled guide") : g.title
         }
-      }
+      })
       return (
         .userGuide(id: ugId),
         title,
